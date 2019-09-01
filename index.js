@@ -50,7 +50,7 @@ app.get('/', (req, res) => {
     res.send('<h1>Hello World!!!</h1>')
 })
   
-app.get('/persons', (req, res) => {
+app.get('/api/persons', (req, res) => {
     res.json(persons)
 })
 
@@ -62,7 +62,7 @@ app.get('/info', (req, res) => {
 })
 
     //yksittäisen henkilön näyttäminen
-app.get('/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     const person = persons.find(person => person.id === id)
     
@@ -74,7 +74,7 @@ app.get('/persons/:id', (request, response) => {
 })
 
     //resurssin poistaminen
-app.delete('/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     persons = persons.filter(person => person.id !== id)
       
@@ -87,7 +87,7 @@ const generateId = () => {
     return Math.floor(Math.random()*1000000)
 }
   //uuden muistiinpanon lisääminen 2/2
-app.post('/persons', (request, response) => {
+app.post('/api/persons', (request, response) => {
     const person = request.body
   
     if (!person.name) {
