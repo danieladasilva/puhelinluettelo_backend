@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
 
+
 morgan.token('type',  (req, res) => 
                 { 
                   if(req.method==="POST") {
@@ -18,6 +19,7 @@ app.use(bodyParser.json())
 app.use(morgan('tiny'))
 app.use(morgan(':type'))
 app.use(cors())
+app.use(express.static('build'))
 
 let persons = [
     {
@@ -44,15 +46,15 @@ let persons = [
 
 //ROUTES
 
-app.get('/api/', (req, res) => {
+app.get('/', (req, res) => {
     res.send('<h1>Hello World!!!</h1>')
 })
   
-app.get('/api/persons', (req, res) => {
+app.get('/persons', (req, res) => {
     res.json(persons)
 })
 
-app.get('/api/info', (req, res) => {
+app.get('/info', (req, res) => {
     const length = persons.length
     const date = new Date()
     res.send('Puhelinluettelossa on '+ length + ' henkilöä.' + date)
@@ -60,7 +62,7 @@ app.get('/api/info', (req, res) => {
 })
 
     //yksittäisen henkilön näyttäminen
-app.get('/api/persons/:id', (request, response) => {
+app.get('/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     const person = persons.find(person => person.id === id)
     
@@ -72,7 +74,7 @@ app.get('/api/persons/:id', (request, response) => {
 })
 
     //resurssin poistaminen
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     persons = persons.filter(person => person.id !== id)
       
@@ -85,7 +87,7 @@ const generateId = () => {
     return Math.floor(Math.random()*1000000)
 }
   //uuden muistiinpanon lisääminen 2/2
-app.post('/api/persons', (request, response) => {
+app.post('/persons', (request, response) => {
     const person = request.body
   
     if (!person.name) {
