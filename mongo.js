@@ -1,73 +1,56 @@
-const mongoose = require('mongoose')
+//TÄMÄ TIEDOSTO ON TURHA??
 
-if ( process.argv.length<3 ) {
-  console.log('give password as argument')
-  console.log(process.argv[2])
-  process.exit(1)
-}
+// const mongoose = require('mongoose')
 
-const password = process.argv[2]
+// if ( process.argv.length<3 ) {
+//   console.log('give password as argument')
+//   console.log(process.argv[2])
+//   process.exit(1)
+// }
 
-const url =
-  `mongodb+srv://daniela:${password}@cluster0-ogyp2.mongodb.net/person-app?retryWrites=true&w=majority`
+// const password = process.argv[2]
 
-mongoose.connect(url, { useNewUrlParser: true })
+// const url =
+//   `mongodb+srv://daniela:${password}@cluster0-ogyp2.mongodb.net/person-app?retryWrites=true&w=majority`
 
-const noteSchema = new mongoose.Schema({
-  id: Number,
-  name: String,
-  number: String,
-})
+// mongoose.connect(url, { useNewUrlParser: true })
 
-const Person = mongoose.model('Person', noteSchema)
-
-// const person = new Person({
-//   id: 99,
-//   name: 'Annika',
-//   number: '040-82919394',
+// const noteSchema = new mongoose.Schema({
+//   id: Number,
+//   name: String,
+//   number: String,
 // })
 
-// person.save().then(response => {
-//   console.log('person saved!');
-//   mongoose.connection.close();
-// })
+// const Person = mongoose.model('Person', noteSchema)
 
-
-// Person.find({}).then(result => {
-//   result.forEach(note => {
-//     console.log(note)
-//   })
-//   mongoose.connection.close()
-// })
-
-if ( process.argv.length === 3) {
-    console.log('komennossa 3 sanaa')
-    console.log('phonebook:')
-    //miks tää piti ottaa pois??????
-    //process.exit(1) 
+// if ( process.argv.length === 3) {
+//     console.log('komennossa 3 sanaa')
+//     console.log('phonebook:')
+//     //miks tää piti ottaa pois??????
+//     //process.exit(1) 
     
-    Person.find({}).then(result => {
-        result.forEach(person => {
-          console.log(person.name + ' ' +  person.number)
-        })
-        mongoose.connection.close()
-      })
+//     Person.find({}).then(result => {
+//         result.forEach(person => {
+//           console.log(person.name + ' ' +  person.number)
+//         })
+//         mongoose.connection.close()
+//       })
 
-  }
+//   }
 
-  if ( process.argv.length === 5) {
-    console.log('komennossa 5 sanaa')
-    //miksi täää piti ottaa pois?????
-    //process.exit(1)
+//   if ( process.argv.length === 5) {
+//     console.log('komennossa 5 sanaa')
+//     //miksi täää piti ottaa pois?????
+//     //process.exit(1)
 
-    const person = new Person({
-        id: 99,
-        name: process.argv[3],
-        number: process.argv[4],
-      })
+//     const person = new Person({
+//         id: 99,
+//         name: process.argv[3],
+//         number: process.argv[4],
+//       })
       
-      person.save().then(response => {
-        console.log('Added ' + person.name + ' number ' + person.number + ' to phonebook!');
-        mongoose.connection.close();
-      })      
-  }
+//       person.save().then(response => {
+//         console.log('Added ' + person.name + ' number ' + person.number + ' to phonebook!');
+//         mongoose.connection.close();
+//       })      
+//   }
