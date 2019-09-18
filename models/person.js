@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-
+//UUSI LISÄTTY 18.09.2019:
+require('dotenv').config()
 const url = process.env.MONGODB_URI
 
 console.log('yhdistetään osoitteeseen: ', url)
