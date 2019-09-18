@@ -76,6 +76,16 @@ app.get('/api/persons/:id', (request, response, next) => {
       .catch(error => {next(error)})
   })
 
+  app.put('/api/persons/:id', (request, response, next) => {
+    Person.findByIdAndUpdate(request.params.id, 
+                           {number: request.body.number},
+                           {new: true})
+      .then(result => {
+        response.json(result.toJSON())
+      })
+      .catch(error => {next(error)})
+  })
+
 
 
     //RESURSSIN POISTAMINEN - TIETOKANTA TOIMII
