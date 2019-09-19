@@ -1,2 +1,2 @@
-Heroku [https://infinite-eyrie-85894.herokuapp.com/]
+Heroku https://infinite-eyrie-85894.herokuapp.com/
 
