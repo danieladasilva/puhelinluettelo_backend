@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
 
 const url = process.env.MONGODB_URI
 
@@ -14,10 +15,24 @@ mongoose.connect(url, { useNewUrlParser: true })
 })
 
 const personSchema = new mongoose.Schema({
-  id: Number,
-  name: String,
-  number: String,
+  id: {
+    type: Number,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    minlength: 3
+  },  
+  number: {
+    type: String,
+    required: true,
+    minlength: 8
+  }  
 })
+
+personSchema.plugin(uniqueValidator)
 
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
@@ -26,8 +41,6 @@ personSchema.set('toJSON', {
     delete returnedObject.__v
   }
 })
-
-//const Person = mongoose.model('Person', personSchema)
 
 if ( process.argv.length === 3) {
     console.log('komennossa 3 sanaa')

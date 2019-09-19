@@ -76,6 +76,11 @@ app.get('/api/persons/:id', (request, response, next) => {
       .catch(error => {next(error)})
   })
 
+
+
+
+        //RESURSSIN NUMERON PÄIVITTÄMINEN - TIETOKANTA TOIMII
+
   app.put('/api/persons/:id', (request, response, next) => {
     Person.findByIdAndUpdate(request.params.id, 
                            {number: request.body.number},
@@ -85,6 +90,7 @@ app.get('/api/persons/:id', (request, response, next) => {
       })
       .catch(error => {next(error)})
   })
+
 
 
 
@@ -99,33 +105,33 @@ app.delete('/api/persons/:id', (request, response, next) => {
   })
 
 
+
     //UUDEN RESURSSIN LISÄÄMINEN - ONKO TÄMÄ KESKEN????????
 
-  //uuden henkilön lisääminen 1/2
 const generateId = () => {
     return Math.floor(Math.random()*1000000)
 }
-  //uuden henkilön lisääminen 2/2
-app.post('/api/persons', (request, response) => {
+
+app.post('/api/persons', (request, response, next) => {
     const person = request.body
   
-    if (!person.name) {
-      return response.status(400).json({ 
-        error: 'nimi puuttuu' 
-        })
-    }
+    // if (!person.name) {
+    //   return response.status(400).json({ 
+    //     error: 'nimi puuttuu' 
+    //     })
+    // }
 
-    if (!person.number) {
-        return response.status(400).json({ 
-          error: 'numero puuttuu' 
-          })
-      }
+    // if (!person.number) {
+    //     return response.status(400).json({ 
+    //       error: 'numero puuttuu' 
+    //       })
+    //   }
       
-    if (persons.find(element => element.name === person.name)) {
-        return response.status(400).json({ 
-            error: 'nimi on jo listassa' 
-            })
-    }
+    // if (persons.find(element => element.name === person.name)) {
+    //     return response.status(400).json({ 
+    //         error: 'nimi on jo listassa' 
+    //         })
+    // }
   
     const personi = new Person({
         name: person.name,
@@ -137,9 +143,11 @@ app.post('/api/persons', (request, response) => {
     persons = persons.concat(personi)
   
     //response.json(personi)
-    personi.save().then(savedPerson => {
-        response.json(savedPerson.toJSON())
-    })
+    personi.save()
+        .then(savedPerson => {
+            response.json(savedPerson.toJSON())
+        })
+        .catch(error => next(error))
 })
 
 
@@ -152,8 +160,10 @@ const errorHandler = (error, request, response, next) => {
     console.error(error.message)
   
     if (error.name === 'CastError' && error.kind == 'ObjectId') {
-      return response.status(400).send({ error: 'id on vääränmuotoinen' })
-    } 
+        return response.status(400).send({ error: 'id on vääränmuotoinen' })
+    } else if (error.name === 'ValidationError') {
+        return response.status(400).json({ error: 'Nimi ei ole uniikki: ' + error.message })
+    }
   
     next(error)
 } 
